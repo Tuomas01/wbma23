@@ -13,9 +13,13 @@ const List = () => {
   */
 
   const loadMedia = async () => {
+    try {
     const response = await fetch(url);
     const json = await response.json();
     setMediaArray(json);
+    } catch {
+      console.log('loadMedia', error);
+    }
   };
 
   useEffect(() => {
@@ -27,6 +31,7 @@ const List = () => {
   return (
     <FlatList
       data={mediaArray}
+      keyExtractor={(item, index) => index.toString()}
       renderItem={({item}) => <ListItem singleMedia={item} />}
     />
   );
