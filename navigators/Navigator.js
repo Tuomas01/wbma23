@@ -40,14 +40,14 @@ const StackScreen = () => {
   return (
     <Stack.Navigator>
       {isLoggedIn ? (
-              <>
-              <Stack.Screen
-                name="Tabs"
-                component={TabScreen}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen name="Single" component={Single} />
-            </>
+        <>
+          <Stack.Screen
+            name="Tabs"
+            component={TabScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen name="Single" component={Single} />
+        </>
       ) : (
         <Stack.Screen name="Login" component={Login}></Stack.Screen>
       )}
