@@ -1,17 +1,23 @@
 import React, {useContext} from 'react';
 import {StyleSheet, SafeAreaView, Text, Button} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Profile = () => {
-  const {setisLoggedIn} = useContext(MainContext);
+  const {setIsLoggedIn} = useContext(MainContext);
   return (
     <SafeAreaView style={styles.container}>
       <Text>Profile</Text>
       <Button
         title="Logout!"
-        onPress={() => {
+        onPress={async () => {
           console.log('Logging out!');
-          setisLoggedIn(false);
+          setIsLoggedIn(false);
+          try {
+            await AsyncStorage.clear();
+          } catch (e) {
+            console.log('Clearning async storage failed', e);
+          }
         }}
       />
     </SafeAreaView>
