@@ -11,12 +11,12 @@ const ListItem = ({singleMedia, navigation}) => {
       }}
     >
       <Image
-        style={{width: 100, height: 100}}
+        style={{width: 100, height: 100, borderRadius: 75}}
         source={{uri: uploadsUrl + item.thumbnails?.w160}}
       ></Image>
       <View>
-        <Text>{item.title}</Text>
-        <Text>{item.description}</Text>
+        <Text style={{color: 'white'}}>{item.title}</Text>
+        <Text style={{color: 'white'}}>{item.description}</Text>
       </View>
     </TouchableOpacity>
   );
