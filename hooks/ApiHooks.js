@@ -1,6 +1,18 @@
 import {useEffect, useState} from 'react';
 import {baseUrl} from '../utils/variables';
 
+const doFetch = async (url, options) => {
+  const response = await fetch(url, options);
+  const json = await response.json();
+  if (!response.ok) {
+    const message = json.error
+      ? `${json.message}: ${json.error}`
+      : json.message;
+    throw new Error(message || response.status);
+  }
+  return json;
+};
+
 const useMedia = () => {
   const [mediaArray, setMediaArray] = useState([]);
   /* this is the same as this ^
@@ -34,4 +46,44 @@ const useMedia = () => {
   return {/* mediaArray: mediaArray | same as --> */ mediaArray};
 };
 
-export {useMedia};
+const useAuthentication = () => {
+  const postLogin = async (userCredentials) => {
+    // user credentials format: {username: 'someUsername', password: 'somePassword'}
+    const options = {
+      // TODO: add method, headers and body for sending json data with POST
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userCredentials),
+    };
+    try {
+      // TODO: use fetch to send request to login endpoint and return the result as json, handle errors with try/catch and response.ok
+      return await doFetch(baseUrl + 'login', options);
+    } catch (e) {
+      console.log('postLogin', e);
+      throw new Error(e.message);
+    }
+  };
+
+  return {postLogin};
+};
+
+const useUser = () => {
+  const getUserByToken = async (token) => {
+    const options = {
+      method: 'GET',
+      headers: {'x-access-token': token},
+    };
+    try {
+      return await doFetch(baseUrl + 'users/user', options);
+    } catch (e) {
+      console.log('getUserByToken', e);
+      throw new Error(e.message);
+    }
+  };
+
+  return {getUserByToken};
+};
+
+export {useMedia, useAuthentication, useUser};
