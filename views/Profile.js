@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {StyleSheet, SafeAreaView, Text, Button} from 'react-native';
+import {StyleSheet, SafeAreaView, Text, Button, View} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -7,7 +7,7 @@ const Profile = () => {
   const {setIsLoggedIn} = useContext(MainContext);
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Profile</Text>
+      <Text style={{color: 'white', padding: 10}}>Profile</Text>
       <Button
         title="Logout!"
         onPress={async () => {
@@ -27,7 +27,7 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#121212',
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 40,
