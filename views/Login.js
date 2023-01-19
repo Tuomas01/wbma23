@@ -5,28 +5,19 @@ import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAuthentication} from '../hooks/ApiHooks';
 import {getUserByToken} from '../hooks/ApiHooks';
+import {useUser} from '../hooks/ApiHooks';
+import LoginForm from '../components/LoginForm';
 
 
 const Login = ({navigation}) => {
   const {setIsLoggedIn} = useContext(MainContext);
-  const {postLogin} = useAuthentication();
-
-  const logIn = async () => {
-    console.log('Button pressed');
-    const data = {username: 'tuomheik', password: 'newpass1234'};
-    try {
-      const loginResult = await postLogin(data);
-      console.log('login', loginResult);
-      await AsyncStorage.setItem('userToken', loginResult.token);
-      setIsLoggedIn(true);
-    } catch (e) {
-      console.warn('Error storing token');
-    }
-  };
+  const {getUserByToken} = useUser();
 
   const checkToken = async () => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');
+      // if no token available, do nothing
+      if (userToken === null) return;
       const userData = await getUserByToken(userToken);
       console.log(userData);
       setIsLoggedIn(true);
@@ -41,8 +32,12 @@ const Login = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+<<<<<<< Updated upstream
       <Text>Login</Text>
       <Button title="Sign in!" onPress={logIn} />
+=======
+      <LoginForm />
+>>>>>>> Stashed changes
     </View>
   );
 };
