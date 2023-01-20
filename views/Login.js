@@ -1,34 +1,31 @@
 import React, {useContext, useEffect} from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useAuthentication} from '../hooks/ApiHooks';
-import {getUserByToken} from '../hooks/ApiHooks';
-
+import {useUser} from '../hooks/ApiHooks';
+import LoginForm from '../components/LoginForm';
+import RegisterForm from '../components/RegisterForm';
 
 const Login = ({navigation}) => {
-  const {setIsLoggedIn} = useContext(MainContext);
-  const {postLogin} = useAuthentication();
-
-  const logIn = async () => {
-    console.log('Button pressed');
-    const data = {username: 'tuomheik', password: 'newpass1234'};
-    try {
-      const loginResult = await postLogin(data);
-      console.log('login', loginResult);
-      await AsyncStorage.setItem('userToken', loginResult.token);
-      setIsLoggedIn(true);
-    } catch (e) {
-      console.warn('Error storing token');
-    }
-  };
+  const {setIsLoggedIn, setUser} = useContext(MainContext);
+  const {getUserByToken} = useUser();
 
   const checkToken = async () => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');
+      // if no token available, do nothing
+      if (userToken === null) return;
       const userData = await getUserByToken(userToken);
       console.log(userData);
+      setUser(userData);
       setIsLoggedIn(true);
     } catch (e) {
       console.log('No valid token');
@@ -40,10 +37,23 @@ const Login = ({navigation}) => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    /*<View style={styles.container}>
       <Text style={{color: 'white', padding: 10}}>Login</Text>
       <Button title="Sign in!" onPress={logIn} />
-    </View>
+    </View>*/
+    <TouchableOpacity
+      onPress={() => Keyboard.dismiss()}
+      style={{flex: 1}}
+      activeOpacity={1}
+    >
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}
+      >
+        <LoginForm />
+        <RegisterForm />
+      </KeyboardAvoidingView>
+    </TouchableOpacity>
   );
 };
 
