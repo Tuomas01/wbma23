@@ -50,8 +50,12 @@ const Login = ({navigation}) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
       >
-        <LoginForm />
-        <RegisterForm />
+        <View style={styles.forms}>
+          <LoginForm />
+        </View>
+        <View style={styles.forms}>
+          <RegisterForm />
+        </View>
       </KeyboardAvoidingView>
     </TouchableOpacity>
   );
@@ -60,8 +64,17 @@ const Login = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: 'white',
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  forms: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 10,
     justifyContent: 'center',
   },
 });

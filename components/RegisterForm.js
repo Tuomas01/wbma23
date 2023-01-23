@@ -92,7 +92,7 @@ const RegisterForm = () => {
         <Text>min length is 3 characters</Text>
       )}
 
-      <Button title="Sign in!" onPress={handleSubmit(register)} />
+      <Button title="Register!" onPress={handleSubmit(register)} />
     </View>
   );
 };
