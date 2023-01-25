@@ -1,34 +1,17 @@
-import {StyleSheet, SafeAreaView, Platform, View} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import List from '../components/List';
 import PropTypes from 'prop-types';
+import {Card} from '@rneui/themed';
 
 const Home = ({navigation}) => {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.listItem}>
+    <View style={{display: 'flex', justifyContent: 'center', alignContent: 'center', backgroundColor: '#151515'}}>
+      <Card containerStyle={{borderRadius: 20, marginBottom: 15, backgroundColor: '#151515'}}>
         <List navigation={navigation} />
-      </View>
-    </SafeAreaView>
+      </Card>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#121212',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  listItem: {
-    backgroundColor: '#181818',
-    borderWidth: 3,
-    borderColor: '#242526',
-    padding: 10,
-    margin: 15,
-  },
-});
 
 Home.propTypes = {
   navigation: PropTypes.object,

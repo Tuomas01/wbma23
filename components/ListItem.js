@@ -1,6 +1,7 @@
-import {Image, Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import {uploadsUrl} from '../utils/variables';
+import {Card, Image, Text} from '@rneui/themed';
 
 const ListItem = ({singleMedia, navigation}) => {
   const item = singleMedia;
@@ -10,16 +11,19 @@ const ListItem = ({singleMedia, navigation}) => {
         navigation.navigate('Single', item);
       }}
     >
-      <View style={styles.container}>
-        <Image
-          style={{width: 100, height: 100, borderRadius: 75}}
-          source={{uri: uploadsUrl + item.thumbnails?.w160}}
-        ></Image>
-        <View>
-          <Text style={{color: 'white', marginLeft: 10}}>{item.title}</Text>
-          <Text style={{color: 'white', marginLeft: 10}}>{item.description}</Text>
+      <Card containerStyle={{borderRadius: 20}}>
+        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', flexWrap: 'wrap'}}>
+          <Image
+            source={{uri: uploadsUrl + item.thumbnails?.w160}}
+            containerStyle={{width: 100, height: 100, borderRadius: 75, borderWidth: 2,
+              borderColor: 'black'}}
+          ></Image>
+          <View>
+            <Text style={{marginLeft: 10}}>{item.title}</Text>
+            <Text style={{marginLeft: 10}}>{item.description}</Text>
+          </View>
         </View>
-      </View>
+      </Card>
     </TouchableOpacity>
   );
 };
@@ -28,16 +32,5 @@ ListItem.propTypes = {
   singleMedia: PropTypes.object,
   navigation: PropTypes.object,
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingTop: Platform.OS === 'android' ? 30 : 0,
-  },
-});
 
 export default ListItem;

@@ -1,9 +1,9 @@
 import React, {useContext, useEffect} from 'react';
+import { Card } from '@rneui/themed';
 import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -43,41 +43,23 @@ const Login = ({navigation}) => {
     </View>*/
     <TouchableOpacity
       onPress={() => Keyboard.dismiss()}
-      style={{flex: 1}}
+      style={{flex: 1, backgroundColor: '#151515'}}
       activeOpacity={1}
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.container}
+        style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
       >
-        <View style={styles.forms}>
+        <Card containerStyle={{ display: 'flex', justifyContent: 'center', width: '75%', borderRadius: 20 }}>
           <LoginForm />
-        </View>
-        <View style={styles.forms}>
+        </Card>
+        <Card containerStyle={{ display: 'flex', justifyContent: 'center', width: '75%', borderRadius: 20 }}>
           <RegisterForm />
-        </View>
+        </Card>
       </KeyboardAvoidingView>
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  forms: {
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 10,
-    justifyContent: 'center',
-  },
-});
 
 Login.propTypes = {
   navigation: PropTypes.object,

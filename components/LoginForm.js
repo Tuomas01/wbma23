@@ -2,8 +2,9 @@ import React, {useContext} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAuthentication} from '../hooks/ApiHooks';
-import {Button, Text, TextInput, View} from 'react-native';
+import {TextInput, View} from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
+import {Button, Text} from '@rneui/themed';
 
 const LoginForm = () => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
@@ -66,7 +67,7 @@ const LoginForm = () => {
         name="password"
       />
       {errors.password && <Text>Password (min. 5 chars) is required .</Text>}
-      <Button title="Sign in!" onPress={handleSubmit(logIn)} />
+      <Button buttonStyle={{borderRadius: 10, backgroundColor: '#320064'}} title="Sign in!" onPress={handleSubmit(logIn)} />
     </View>
   );
 };

@@ -1,7 +1,8 @@
 import React from 'react';
 import {useUser} from '../hooks/ApiHooks';
-import {Button, Text, TextInput, View} from 'react-native';
+import {TextInput, View} from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
+import {Button, Text} from '@rneui/themed';
 
 const RegisterForm = () => {
   // const {setIsLoggedIn} = useContext(MainContext);
@@ -92,7 +93,7 @@ const RegisterForm = () => {
         <Text>min length is 3 characters</Text>
       )}
 
-      <Button title="Register!" onPress={handleSubmit(register)} />
+      <Button buttonStyle={{borderRadius: 10, backgroundColor: '#320064'}} title="Register!" onPress={handleSubmit(register)} />
     </View>
   );
 };
