@@ -2,9 +2,8 @@ import React, {useContext} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAuthentication} from '../hooks/ApiHooks';
-import {TextInput, View} from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
-import {Button, Text} from '@rneui/themed';
+import {Button, Text, Card, Input} from '@rneui/themed';
 
 const LoginForm = () => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
@@ -19,7 +18,7 @@ const LoginForm = () => {
 
   const logIn = async (loginData) => {
     console.log('Login button pressed', loginData);
-    const data = {username: 'tuomheik', password: 'newpass1234'};
+    // const data = {username: 'tuomheik', password: 'newpass1234'};
     try {
       const loginResult = await postLogin(loginData);
       console.log('logIn', loginResult);
@@ -33,42 +32,50 @@ const LoginForm = () => {
   };
 
   return (
-    <View>
+    <Card
+      containerStyle={{
+        display: 'flex',
+        justifyContent: 'center',
+        width: '75%',
+        borderRadius: 20,
+      }}
+    >
       <Text>Login Form</Text>
       <Controller
         control={control}
-        rules={{required: true, minLength: 3}}
+        rules={{required: {value: true, message: 'is required'}}}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
+          <Input
             placeholder="Username"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
+            errorMessage={errors.username && errors.username.message}
           />
         )}
         name="username"
       />
-      {errors.username?.type === 'required' && <Text>is required</Text>}
-      {errors.username?.type === 'minLength' && (
-        <Text>min length is 3 characters</Text>
-      )}
       <Controller
         control={control}
-        rules={{required: true, minLength: 5}}
+        rules={{required: {value: true, message: 'is required'}}}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
+          <Input
             placeholder="Password"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
             secureTextEntry={true}
+            errorMessage={errors.password && errors.password.message}
           />
         )}
         name="password"
       />
-      {errors.password && <Text>Password (min. 5 chars) is required .</Text>}
-      <Button buttonStyle={{borderRadius: 10, backgroundColor: '#320064'}} title="Sign in!" onPress={handleSubmit(logIn)} />
-    </View>
+      <Button
+        buttonStyle={{borderRadius: 10, backgroundColor: '#320064'}}
+        title="Sign in!"
+        onPress={handleSubmit(logIn)}
+      />
+    </Card>
   );
 };
 

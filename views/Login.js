@@ -1,11 +1,10 @@
-import React, {useContext, useEffect} from 'react';
-import { Card } from '@rneui/themed';
+import React, {useContext, useEffect, useState} from 'react';
+import {Card, Text, Button} from '@rneui/themed';
 import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
-  View,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
@@ -17,6 +16,7 @@ import RegisterForm from '../components/RegisterForm';
 const Login = ({navigation}) => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
   const {getUserByToken} = useUser();
+  const [toggleForm, setToggleForm] = useState(true);
 
   const checkToken = async () => {
     try {
@@ -37,10 +37,10 @@ const Login = ({navigation}) => {
   }, []);
 
   return (
-    /*<View style={styles.container}>
+    /* <View style={styles.container}>
       <Text style={{color: 'white', padding: 10}}>Login</Text>
       <Button title="Sign in!" onPress={logIn} />
-    </View>*/
+    </View> */
     <TouchableOpacity
       onPress={() => Keyboard.dismiss()}
       style={{flex: 1, backgroundColor: '#151515'}}
@@ -50,11 +50,27 @@ const Login = ({navigation}) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
       >
-        <Card containerStyle={{ display: 'flex', justifyContent: 'center', width: '75%', borderRadius: 20 }}>
-          <LoginForm />
-        </Card>
-        <Card containerStyle={{ display: 'flex', justifyContent: 'center', width: '75%', borderRadius: 20 }}>
-          <RegisterForm />
+        {toggleForm ? <LoginForm /> : <RegisterForm />}
+        <Card
+          containerStyle={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: '75%',
+            borderRadius: 20,
+          }}
+        >
+          <Text>
+            {toggleForm
+              ? 'No account yet? Please register.'
+              : 'Already have an account? Please login.'}
+          </Text>
+          <Button
+            type="outline"
+            title={toggleForm ? 'Go to register' : 'Go to login'}
+            onPress={() => {
+              setToggleForm(!toggleForm);
+            }}
+          />
         </Card>
       </KeyboardAvoidingView>
     </TouchableOpacity>
