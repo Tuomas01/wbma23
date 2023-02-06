@@ -24,7 +24,9 @@ const Single = ({route}) => {
             alignItems: 'center',
           }}
         >
-          <Text h2 h2Style={{marginBottom: 5}}>{title}</Text>
+          <Text h2 h2Style={{marginBottom: 5}}>
+            {title}
+          </Text>
           <Image
             source={{uri: uploadsUrl + filename}}
             containerStyle={{
@@ -35,7 +37,9 @@ const Single = ({route}) => {
               marginBottom: 5,
             }}
           />
-          <Text>{timeAdded}</Text>
+          <Text>
+            uploaded at: {new Date(timeAdded).toLocaleString('fi-FI')}
+          </Text>
           <Text>{description}</Text>
         </View>
       </Card>
