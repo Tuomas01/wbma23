@@ -1,24 +1,39 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Card, Text, Button, Input} from '@rneui/themed';
 import {Controller, useForm} from 'react-hook-form';
+import {useUser} from '../hooks/ApiHooks';
 
 const Update = () => {
+  const {putUser} = useUser();
   const {
     control,
     handleSubmit,
     formState: {errors},
   } = useForm({
-    defaultValues: {username: '', password: '', email: ''},
+    defaultValues: {
+      username: '',
+      password: '',
+      email: '',
+    },
   });
 
   const UpdateUser = async (updatedData) => {
-    console.log('UpdateUser button pressed', updatedData);
-    // const data = {username: 'tuomheik', password: 'newpass1234'};
+    const {getUserByToken} = useUser();
+    const userToken = await AsyncStorage.getItem('userToken');
+    console.log('userToken:', userToken);
+    const userData = await getUserByToken(userToken);
+    console.log('userdata:', userData);
     try {
-      const userToken = await AsyncStorage.getItem('userToken');
-      console.log('testing profile:', userToken);
-      // const loginResult = await postLogin(loginData);
-      // console.log('logIn', loginResult);
+      if (updatedData.username === '') {
+        updatedData.username = userData.username;
+      }
+      if (updatedData.email === '') {
+        updatedData.email = userData.email;
+      }
+      updatedData.token = userToken;
+      console.log('UpdateUser button pressed', updatedData);
+      const updateResult = await putUser(updatedData);
+      console.log('updated result', updateResult);
     } catch (error) {
       console.error('UpdateUser', error);
     }
@@ -38,7 +53,7 @@ const Update = () => {
       </Text>
       <Controller
         control={control}
-        rules={{required: {value: true, message: 'is required'}}}
+        // rules={{required: {value: true, message: 'is required'}}}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
             placeholder="Username"
@@ -52,7 +67,13 @@ const Update = () => {
       />
       <Controller
         control={control}
-        rules={{required: {value: true, message: 'is required'}}}
+        rules={{
+          required: {
+            value: true,
+            minLength: 5,
+            message: 'Password must be at lest 5 letters',
+          },
+        }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
             placeholder="Password"
@@ -67,15 +88,13 @@ const Update = () => {
       />
       <Controller
         control={control}
-        rules={{required: {value: true, message: 'is required'}}}
+        // rules={{required: true}}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
             placeholder="Email"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
-            secureTextEntry={true}
-            errorMessage={errors.password && errors.password.message}
           />
         )}
         name="email"

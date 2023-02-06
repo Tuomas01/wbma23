@@ -92,6 +92,7 @@ const useUser = () => {
       body: JSON.stringify(userData),
     };
     try {
+      console.log(':DDDDpost', baseUrl + 'users', options);
       return await doFetch(baseUrl + 'users', options);
     } catch (error) {
       throw new Error('postUser: ' + error.message);
@@ -107,7 +108,24 @@ const useUser = () => {
     }
   };
 
-  return {getUserByToken, postUser, checkUsername};
+
+  const putUser = async (userData, userToken) => {
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    };
+    try {
+      console.log(':DDDD', baseUrl + 'users', options);
+      return await doFetch(baseUrl + 'users', options);
+    } catch (error) {
+      throw new Error('putUser: ' + error.message);
+    }
+  };
+
+  return {getUserByToken, postUser, putUser, checkUsername};
 };
 
 const useTag = () => {
