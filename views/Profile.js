@@ -44,7 +44,9 @@ const Profile = () => {
             borderRadius: 20,
           }}
         >
-          <Text h2>Profile</Text>
+          <Text h2 h2Style={{textAlign: 'center'}}>
+            Profile
+          </Text>
           <Image
             source={{uri: uploadsUrl + avatar}}
             containerStyle={{
@@ -95,9 +97,7 @@ const Profile = () => {
         }}
       >
         <Text style={{marginBottom: 5, textAlign: 'center'}}>
-          {toggleProfile
-            ? 'Update your profile.'
-            : 'Get back to the profile page.'}
+          {toggleProfile ? 'Update profile' : 'Get back to profile'}
         </Text>
         <Button
           title={toggleProfile ? 'Update' : 'Back to profile'}
